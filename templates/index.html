@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #d9d9d9;
+            color: #353535;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #3c6e71;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3c6e71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #284b63;
+        }
+        .edit-button {
+            background-color: #32CD32; /* Green */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .edit-button:hover {
+            background-color: #007736; /* Darker Green */
+        }
+        .delete-button {
+            background-color: #ff6347; /* Red */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .delete-button:hover {
+            background-color: #B22222; /* Darker Red */
+        }
+        .logout-button {
+            background-color: #ff6347; /* Red */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 50%;
+            font-weight: bold;
+        }
+        .logout-button:hover {
+            background-color: #B22222; /* Darker Red */
+        }
+        a {
+            color: #3c6e71;
+        }
+        a:hover {
+            color: #284b63;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #3c6e71;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3c6e71;
+            color: #ffffff;
+        }
+        td a {
+            color: #284b63;
+            text-decoration: none;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <h2>Welcome, {{ session.get('username', 'User') }}!</h2>
+        <h2>Add New Task</h2>
+        <form action="/" method="post">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required><br>
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description"><br>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <h2>Your Tasks</h2>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.status }}</td>
+                <td>
+                    <button class="edit-button"><a href="/update/{{ task.id }}">Edit</a></button>
+                    <button class="delete-button"><a href="/delete/{{ task.id }}">Delete</a></button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No tasks found</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a class="logout-button" href="/logout">Logout</a>
+    </div>
+</body>
+</html>
